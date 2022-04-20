@@ -4,9 +4,9 @@ jobs:
   build-secure-and-push:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@main
+#     - uses: actions/checkout@main
 
-    - run: docker build . -t contoso.azurecr.io/k8sdemo:${{ github.sha }}
+#     - run: docker build . -t contoso.azurecr.io/k8sdemo:${{ github.sha }}
       
     - uses: Azure/container-scan@v0
       with:
