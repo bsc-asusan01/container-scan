@@ -1,0 +1,26 @@
+on: [push]
+
+jobs:
+  build-secure-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+
+    - run: docker build . -t contoso.azurecr.io/k8sdemo:${{ github.sha }}
+      
+    - uses: Azure/container-scan@v0
+      with:
+        image-name: ${{ env.loginServerUrl }}/my-image:${{ github.sha }} # ${{ env.loginServerUrl }}/ would be empty if it's hosted on dockerhub; ${{ github.sha }} could also be replaced with any desired image tag
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    
+#     - uses: Azure/docker-login@v1
+#       with:
+#         login-server: contoso.azurecr.io
+#         username: ${{ secrets.REGISTRY_USERNAME }}
+#         password: ${{ secrets.REGISTRY_PASSWORD }}
+    
+#     - run: docker push contoso.azurecr.io/k8sdemo:${{ github.sha }}
+    
+    
+    - uses: azure/container-scan@v0
